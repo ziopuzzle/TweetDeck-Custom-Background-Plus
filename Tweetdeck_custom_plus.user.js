@@ -6,9 +6,10 @@
 // @author       puzzle
 // @match        https://tweetdeck.twitter.com/*
 // @grant        none
-// @nocompat     Chrome
 // @updateURL    https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js
 // ==/UserScript==
+
+//このスクリプトはGoogleChromeでのみ動作します。
 
 /*
 https://somethingididnotknow.wordpress.com/2013/07/01/change-page-styles-with-greasemonkeytampermonkey/

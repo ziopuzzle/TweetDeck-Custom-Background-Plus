@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Tweetdeck 背景透過+
-// @namespace    http://tampermonkey.net/
+// @namespace    https://twitter.com/puzzle_koa/
 // @version      0.200
 // @description  Tweetdeckに背景をプラスしてより使いやすく
 // @author       puzzle

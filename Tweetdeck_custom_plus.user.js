@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tweetdeck 背景透過+
 // @namespace    https://twitter.com/puzzle_koa/
-// @version      0.201
+// @version      0.200
 // @description  Tweetdeckに背景をプラスしてより使いやすく
 // @author       puzzle
 // @match        https://tweetdeck.twitter.com/*
@@ -13,9 +13,8 @@
 
 
 (function() {
+    //Javascriptの厳格モードを使用
     'use strict';
-
-    var i = 0;
 
     //cssのグローバルスタイルでの記述を可能にする関数です。
     function addGlobalStyle(css) {
@@ -32,10 +31,10 @@
 
     addGlobalStyle(
         '.app-columns-container {' +
-        '    background-image: url(\"'+background_url+'\"); ' +
-        '    background-repeat: repeat; ' +
-	    '    background-attachment: fixed; ' +
-	    '    background-size: cover; ' +
+        '    background-image: url(\"'+background_url+'\");' +
+        '    background-repeat: repeat;' +
+        '    background-attachment: fixed;' +
+        '    background-size: cover;' +
         '}'
     );
 
@@ -60,7 +59,26 @@
     if(column_width_lockflag){
         addGlobalStyle(
             '.column {' +
-            '    width: calc('+column_width+'px); ' +
+            '    width: calc('+column_width+'px);' +
+            '}'
+        );
+    }
+
+    //ツイート更新時にエフェクトを付与
+    var tweet_effect_flag = true;
+    var tweet_effect_time = 2.0; //エフェクトをかける時間
+    if(tweet_effect_flag){
+        addGlobalStyle(
+            '@keyframes tweet-enter {' +
+            '      0% { background-color: rgba(50, 80, 108, 1.0); }' +
+            '     25% { background-color: rgba(50, 80, 108, 1.0); }' +
+            '     50% { background-color: rgba( 0,  0,   0, 0.3); }' +
+            '     75% { background-color: rgba(50, 80, 108, 1.0); }' +
+            '    100% { background-color: rgba( 0,  0,   0, 0.3); }' +
+            '}'+
+            '.js-chirp-container > article {' +
+            '    animation-duration: '+tweet_effect_time+'s;' +
+            '    animation-name: tweet-enter;' +
             '}'
         );
     }
@@ -70,9 +88,17 @@
         '.will-animate {' +
         '    background: rgba(0,0,0,0.3);' +
         '}' +
-        //カラム全体B
+        //カラム全体B(弄る必要無し)
         '.column-holder {' +
+        '    background: rgba(0,0,0,0.5);' +
+        '}'+
+        //ツイート全体
+        '.js-stream-item {' +
         '    background: rgba(0,0,0,0.3);' +
+        '}'+
+        //引用ツイート
+        '.js-quote-detail {' +
+        '    background: rgba(0,0,0,0.5);' +
         '}'
     );
 

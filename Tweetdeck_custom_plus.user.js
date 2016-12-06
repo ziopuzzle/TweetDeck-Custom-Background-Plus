@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tweetdeck 背景透過+
 // @namespace    https://twitter.com/puzzle_koa/
-// @version      0.200
+// @version      0.201
 // @description  Tweetdeckに背景をプラスしてより使いやすく
 // @author       puzzle
 // @match        https://tweetdeck.twitter.com/*

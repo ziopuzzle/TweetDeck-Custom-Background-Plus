@@ -6,6 +6,7 @@
 // @author       puzzle
 // @match        https://tweetdeck.twitter.com/*
 // @grant        none
+// @nocompat     Chrome
 // @updateURL    https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js
 // ==/UserScript==
 

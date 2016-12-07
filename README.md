@@ -9,6 +9,14 @@ https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldm
 ②以下のURLをクリックします。<br>
 https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js<br>
 <br>
+<br>
+併用すると幸せになれるかも...<br>
+・TweetDeck filters<br>
+https://yellowafterlife.itch.io/tweetdeck-filters<br>
+・BetterTweetdeck
+https://github.com/eramdam/BetterTweetDeck<br>
+<br>
+<br>
 参考にしたサイト<br>
 ・Javascriptでcssを操作する<br>
 https://somethingididnotknow.wordpress.com/2013/07/01/change-page-styles-with-greasemonkeytampermonkey/<br>

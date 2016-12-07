@@ -1,7 +1,7 @@
 # Tweetdeck-Customize
 Tweetdeckのカスタムするスクリプトです。<br>
 <br>
-chromeでのみ動作します。<br>
+※chromeでのみ動作します。<br>
 <br>
 インストール方法<br>
 ①Tampermonkeyをインストールします。<br>

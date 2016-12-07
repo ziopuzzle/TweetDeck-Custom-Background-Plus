@@ -69,8 +69,8 @@
     //ツイート更新時にエフェクトを付与
     var tweet_effect_flag = true;
     var tweet_effect_time = 2.0; //エフェクトをかける時間(秒)
-    var tweet_effect_color_st = 'rgba(128,128,200,0.7)'; //'rgba(50, 80, 108, 1.0)'; //開始エフェクト色
-    var tweet_effect_color_en = 'rgba(0,0,0,0.3)'; //終了エフェクト色
+    var tweet_effect_color_st = 'rgba(50, 80, 108, 1.0)'; //開始エフェクト色
+    var tweet_effect_color_en = 'rgba(0,0,0,0.3)';        //終了エフェクト色
     if(tweet_effect_flag){
         addGlobalStyle(
             '@keyframes tweet-enter {' +

@@ -13,7 +13,7 @@ https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plu
 併用すると幸せになれるかも...<br>
 ・TweetDeck filters<br>
 https://yellowafterlife.itch.io/tweetdeck-filters<br>
-・BetterTweetdeck
+・BetterTweetdeck<br>
 https://github.com/eramdam/BetterTweetDeck<br>
 <br>
 <br>

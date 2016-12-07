@@ -11,9 +11,9 @@ https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plu
 <br>
 <br>
 併用すると幸せになれるかも...<br>
-・TweetDeck filters<br>
+・TweetDeck filters(userscript)<br>
 https://yellowafterlife.itch.io/tweetdeck-filters<br>
-・BetterTweetdeck<br>
+・BetterTweetdeck(chrome拡張)<br>
 https://github.com/eramdam/BetterTweetDeck<br>
 <br>
 <br>

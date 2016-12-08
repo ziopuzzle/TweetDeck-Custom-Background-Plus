@@ -9,6 +9,8 @@ https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldm
 ②以下のURLをクリックします。<br>
 https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js<br>
 <br>
+※Ver0.1を使ってた人へ<br>
+StylishやStylebotは無効化及び削除しても大丈夫です。<br>
 <br>
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br>
 <br>

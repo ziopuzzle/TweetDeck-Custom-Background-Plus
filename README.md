@@ -18,7 +18,9 @@ https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plu
 ※Ver0.1を使ってた人へ<br>
 StylishやStylebotは無効化や削除しても大丈夫です。<br>
 <br>
+<!--
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br>
+-->
 <br>
 併用すると幸せになれるかも...<br>
 ・TweetDeck filters(userscript)<br>

@@ -3,12 +3,6 @@ Tweetdeckのカスタムするスクリプトです。<br>
 <br>
 ※chromeでのみ動作します。<br>
 <br>
-これを使ってできること<br>
-<br>
-<br>
-以下の機能を搭載予定です。<br>
-<br>
-<br>
 インストール方法<br>
 ①Tampermonkeyをインストールします。<br>
 https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo<br>

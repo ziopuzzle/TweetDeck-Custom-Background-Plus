@@ -38,4 +38,7 @@ ver0.1   - ざっくり完成<br>
 ver0.1a  - カラム幅強制機能追加<br>
 ver0.1b  - 修正及び最適化<br>
 ver0.1c  - 更に修正<br>
-ver0.200 - cssからJavascriptへ仕様変更した。<br>
+ver0.20 - cssからJavascriptへ仕様変更した。<br>
+ver0.21 - 修正<br>
+ver0.22 - Tweetdeckの仕様変更に伴い問題が起きたので修正<br>
+

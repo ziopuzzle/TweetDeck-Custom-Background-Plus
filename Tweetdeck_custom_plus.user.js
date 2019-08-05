@@ -104,7 +104,7 @@
             '.app-header, .column-nav-item, .app-navigator, .app-title { background-color: ' + theme.colDockerBackground + ' !important; }' + //ドック 背景
             '.column-panel { background-color: ' + theme.colColumn + ' !important; }' +                         //カラム部 透過度
             '.column-header, .column-options { background-color: ' + theme.colColumnHeader + ' !important; }' + //カラムヘッダー部 透過度
-            '.dropdown-menu { background-color: rgba(64, 48, 128, .8) !important; }' +                          //ツイートに対するメニュー
+            '[role=listbox], .dropdown-menu { background-color: rgba(64, 48, 128, .8) !important; }' +          //ツイートに対するメニュー
             '.is-selected { background-color: rgba(0, 0, 0, .5) !important; }' +                                //メニュー項目フォーカス時
             '.column-type-icon { color: ' + theme.colColumnHeaderIcon + ' !important; }' +
             '.column-heading   { color: ' + theme.colColumnHeaderText + ' !important; }' +

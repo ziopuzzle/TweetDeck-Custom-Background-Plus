@@ -3,7 +3,7 @@
 // @author       puzzle (or ziopuzzle)
 // @namespace    https://twitter.com/puzzle_koa/
 // @version      0.30
-// @description  Tweetdeckで背景を設定できるようにします。Chrome(Chromium系)のみ使用可能。
+// @description  Tweetdeckに背景を設定します。Chrome(Chromium系)のみ使用可能。
 // @match        https://tweetdeck.twitter.com/*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -14,10 +14,11 @@
 
     /* ------------------ class宣言 - 弄らないでください ------------------ */
     class theme {
-        constructor(){ this.bgMain = '#10171E'; this.bgDrawer = '#3D5466'; this.colBorder = '#14171A'; this.colDockerIcon = '#AAB8C2'; this.colDockerBackground = '#1C2938'; this.colColumn = '#15202B'; this.colColumnHeader = '#15202B'; this.colColumnHeaderIcon = 'AAB8C2'; this.colColumnHeaderText = '#FFFFFF'; this.colColumnHeaderSubText = '#8899A6'; this.colName = '#FFFFFF'; this.colID = '#8899A6'; this.colTweet = '#FFFFFF'; this.colQuotedTweet = '#8899A6'; this.colReply = '#1DA1F2'; this.colHashtag = '#1DA1F2'; this.colURL = '#1DA1F2'; this.colIconAct = '#8899A6'; }
+        constructor(){ this.bgMain = '#10171E'; this.bgDrawer = '#3D5466'; this.colBorder = '#14171A'; this.colDockerIcon = '#AAB8C2'; this.colDockerBackground = '#1C2938'; this.colColumn = '#15202B'; this.colColumnHeader = '#15202B'; this.colColumnHeaderIcon = 'AAB8C2'; this.colColumnHeaderText = '#FFFFFF'; this.colColumnHeaderSubText = '#8899A6'; this.colName = '#FFFFFF'; this.colID = '#8899A6'; this.colTweet = '#FFFFFF'; this.colQuotedTweet = '#8899A6'; this.colReply = '#1DA1F2'; this.colHashtag = '#1DA1F2'; this.colURL = '#1DA1F2'; this.colIconAct = '#8899A6'; this.colMenuBackground = '#000000FF' }
         setBG(bgMain, bgDrawer){ this.bgMain = bgMain; this.bgDrawer = bgDrawer; }
         setColorBorder(colBorder){ this.colBorder = colBorder; }
         setColorActionIcon(colIconAct){ this.colIconAct = colIconAct; }
+        setColorMenu(colMenuBackground){ this.colMenuBackground = colMenuBackground; }
         setColorDocker(colDockerIcon, colDockerBackground){ this.colDockerIcon = colDockerIcon; this.colDockerBackground = colDockerBackground; }
         setColorColumn(colColumn, colColumnHeader, colColumnHeaderIcon, colColumnHeaderText, colColumnHeaderSubText){ this.colColumn = colColumn; this.colColumnHeader = colColumnHeader; this.colColumnHeaderIcon = colColumnHeaderIcon; this.colColumnHeaderText = colColumnHeaderText; this.colColumnHeaderSubText = colColumnHeaderSubText; }
         setColorTweet(colName, colID, colTweet, colQuotedTweet, colReply, colHashtag, colURL){ this.colName = colName; this.colID = colID; this.colTweet = colTweet; this.colQuotedTweet = colQuotedTweet; this.colReply = colReply; this.colHashtag = colHashtag; this.colURL = colURL; }
@@ -34,6 +35,7 @@
     themeMiku.setBG('https://w.wallhaven.cc/full/01/wallhaven-015zv1.jpg', 'https://w.wallhaven.cc/full/ne/wallhaven-ne96gk.png');
     themeMiku.setColorBorder('#403080');
     themeMiku.setColorActionIcon('orange');
+    themeMiku.setColorMenu('rgba(64, 48, 128, .8)');
     themeMiku.setColorDocker('#AAB8C2', '#102040');
     themeMiku.setColorColumn('rgba(0,0,0,.5)', 'rgba(128,0,0,.3)', '#AAB8C2', '#FFFFFF', '#8899A6');
     themeMiku.setColorTweet('#FFFFFF', '#8899A6', '#FFFFFF', '#8899A6', '#1DA1F2', '#1DA1F2', '#1DA1F2');
@@ -102,10 +104,10 @@
         addGlobalStyle(
             '.column-nav-link { color: ' + theme.colDockerIcon + ' !important; }' +                                                           //ドック アイコン
             '.app-header, .column-nav-item, .app-navigator, .app-title { background-color: ' + theme.colDockerBackground + ' !important; }' + //ドック 背景
-            '.column-panel { background-color: ' + theme.colColumn + ' !important; }' +                         //カラム部 透過度
-            '.column-header, .column-options { background-color: ' + theme.colColumnHeader + ' !important; }' + //カラムヘッダー部 透過度
-            '[role=listbox], .dropdown-menu { background-color: rgba(64, 48, 128, .8) !important; }' +          //ツイートに対するメニュー
-            '.is-selected { background-color: rgba(0, 0, 0, .5) !important; }' +                                //メニュー項目フォーカス時
+            '.column-panel { background-color: ' + theme.colColumn + ' !important; }' +                          //カラム部 透過度
+            '.column-header, .column-options { background-color: ' + theme.colColumnHeader + ' !important; }' +  //カラムヘッダー部 透過度
+            '[role=listbox], .dropdown-menu { background-color: ' + theme.colMenuBackground + ' !important; }' + //ツイートに対するメニュー
+            '.is-selected { background-color: rgba(0, 0, 0, .5) !important; }' +                                 //メニュー項目フォーカス時
             '.column-type-icon { color: ' + theme.colColumnHeaderIcon + ' !important; }' +
             '.column-heading   { color: ' + theme.colColumnHeaderText + ' !important; }' +
             '.attribution      { color: ' + theme.colColumnHeaderSubText + ' !important; }' +

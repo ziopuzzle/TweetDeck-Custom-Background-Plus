@@ -1,313 +1,145 @@
 // ==UserScript==
-// @name         Tweetdeck 背景透過+
+// @name         TweetDeck 背景透過+
+// @author       puzzle (or ziopuzzle)
 // @namespace    https://twitter.com/puzzle_koa/
-// @version      0.210
-// @description  Tweetdeckに背景をプラスしてより使い心地良く
-// @author       puzzle
+// @version      0.30
+// @description  Tweetdeckで背景を設定できるようにします。Chrome(Chromium系)のみ使用可能。
 // @match        https://tweetdeck.twitter.com/*
 // @grant        none
-// @updateURL    https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // ==/UserScript==
 
-//このスクリプトはGoogleChromeでのみ動作します。
-
-
 (function($) {
-    /* ------------------------------ 前準備 ------------------------------ */
-    //Javascriptの厳格モードを使用
-    'use strict';
-    //Javascriptでのcssグローバルスタイルの記述を可能にする関数です。
-    function addGlobalStyle(css) {
-        var head, style;
-        head = document.getElementsByTagName('head')[0];
-        if (!head) { return; }
-        style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = css;
-        head.appendChild(style);
-    }
-    //型の判別を行う関数です。
-    //type   : String,Number,Boolean,Date,Error,Array,Function,RegExp,Object
-    //obj    : 判定を行いたいもの(文字列や数値等)
-    //return : typeと型が合致していればtrue、違うならばfalseを返す
-    function is(type, obj) {
-        var clas = Object.prototype.toString.call(obj).slice(8, -1);
-        return obj !== undefined && obj !== null && clas === type;
-    }
-    //16進数をCSS用の書式に書き直してくれる関数
-    function toCSSColor(color) {
-        if(is('String',color)){ return color; }
-        if(is('Number',color)){
-            var col,temp,result = 'rgba(';
-            var count = 3;
-            for(var i=count-1;i>=0;i--){
-                temp = (( color/Math.pow(256,i) ) % 256) | 0;
-                result += temp;
-                //if(i!==0){result += ',';}
-                result += ',';
-            }
-            result += '1)';
-            return result;
-        }
-    }
-    /* -------------------------- ここまで前準備 -------------------------- */
+    'use strict'; //厳格モードを使用(弄らないでください)
 
-    //alert(toCSSColor(0x32506c));
+    /* ------------------ class宣言 - 弄らないでください ------------------ */
+    class theme {
+        constructor(){ this.bgMain = '#10171E'; this.bgDrawer = '#3D5466'; this.colBorder = '#14171A'; this.colDockerIcon = '#AAB8C2'; this.colDockerBackground = '#1C2938'; this.colColumn = '#15202B'; this.colColumnHeader = '#15202B'; this.colColumnHeaderIcon = 'AAB8C2'; this.colColumnHeaderText = '#FFFFFF'; this.colColumnHeaderSubText = '#8899A6'; this.colName = '#FFFFFF'; this.colID = '#8899A6'; this.colTweet = '#FFFFFF'; this.colQuotedTweet = '#8899A6'; this.colReply = '#1DA1F2'; this.colHashtag = '#1DA1F2'; this.colURL = '#1DA1F2'; this.colIconAct = '#8899A6'; }
+        setBG(bgMain, bgDrawer){ this.bgMain = bgMain; this.bgDrawer = bgDrawer; }
+        setColorBorder(colBorder){ this.colBorder = colBorder; }
+        setColorActionIcon(colIconAct){ this.colIconAct = colIconAct; }
+        setColorDocker(colDockerIcon, colDockerBackground){ this.colDockerIcon = colDockerIcon; this.colDockerBackground = colDockerBackground; }
+        setColorColumn(colColumn, colColumnHeader, colColumnHeaderIcon, colColumnHeaderText, colColumnHeaderSubText){ this.colColumn = colColumn; this.colColumnHeader = colColumnHeader; this.colColumnHeaderIcon = colColumnHeaderIcon; this.colColumnHeaderText = colColumnHeaderText; this.colColumnHeaderSubText = colColumnHeaderSubText; }
+        setColorTweet(colName, colID, colTweet, colQuotedTweet, colReply, colHashtag, colURL){ this.colName = colName; this.colID = colID; this.colTweet = colTweet; this.colQuotedTweet = colQuotedTweet; this.colReply = colReply; this.colHashtag = colHashtag; this.colURL = colURL; }
+    }
+    /* ------------------------ ここまでclass宣言 ------------------------- */
 
     /* ------------------------------- 設定 ------------------------------- */
-    //アイコンを丸くする
-    var avater_round_flag = false; //使用するかどうか(true/false)
-    var avater_round = 5;          //(5:通常 15:丸い四角 50:丸)
-    //カラム幅を固定
-    var column_width_lockflag = false; //使用するかどうか(true/false)
-    var column_width = 320;            //幅(単位px)
-    //app-headerに表示するアイコンの数を増やす(ONでナビアイコンが埋まらない時[Add column]の表示位置がおかしくなるみたいです)
-    var app_navicon_plusflag = true; //使用するかどうか(true/false)
-    //ツイート更新時にエフェクトを付与
-    var tweet_effect_flag = true;      //使用するかどうか(true/false)
-    var tweet_effect_time = 2.0;       //エフェクト時間(秒)
-    var tweet_effect_color = 'rgba(50, 80, 108, 1.0)';//0x32506c; //'rgba(50, 80, 108, 1.0)'; //エフェクト色
+    //setBG('Main-BG', 'Drawer-BG');
+    //setColorBorder('Border');
+    //setColorDocker('Icon', 'Background');
+    //setColorColumn('Column', 'Header', 'Header Icon', 'Header Text', 'Header Sub-Text');
+    //setColorTweet('Name', '@ID' 'Tweet', 'Quote-tweet', 'Reply-ID', 'Hashtag', 'URL');
+    var themeMiku = new theme();
+    themeMiku.setBG('https://w.wallhaven.cc/full/01/wallhaven-015zv1.jpg', 'https://w.wallhaven.cc/full/ne/wallhaven-ne96gk.png');
+    themeMiku.setColorBorder('#403080');
+    themeMiku.setColorActionIcon('orange');
+    themeMiku.setColorDocker('#AAB8C2', '#102040');
+    themeMiku.setColorColumn('rgba(0,0,0,.5)', 'rgba(128,0,0,.3)', '#AAB8C2', '#FFFFFF', '#8899A6');
+    themeMiku.setColorTweet('#FFFFFF', '#8899A6', '#FFFFFF', '#8899A6', '#1DA1F2', '#1DA1F2', '#1DA1F2');
 
+    //実行
+    executeCustom(themeMiku);                         //executeCustom(テーマ);
+    executeTweetFlash('rgba(100, 80, 80, 0.5)', 1.0); //executeTweetFlash('色<#XXXXXXとかrgba(Red,Green,Blue,Alpha)> , 時間<秒>');
     /* --------------------------- ここまで設定 --------------------------- */
 
-
     /* ------------------------------ コード ------------------------------ */
-
-
-    //アイコンを丸くする
-    if(avater_round_flag){
-        addGlobalStyle(
-            '.avatar {' +
-            '    border-radius:'+avater_round+'px;' +
-            '}' +
-            'a.compose-account,span.prf-img {' +
-            '    background:none;' +
-            '}'
-        );
-    }
-
-    //カラム幅を固定
-    if(column_width_lockflag){
-        addGlobalStyle(
-            '.column {' +
-            '    width: calc('+column_width+'px) !important; ' +
-            '}'
-        );
-    }
-
-    //app-headerに表示するナビゲートアイコンの数を増やす
-    if(app_navicon_plusflag){
-        addGlobalStyle(
-            '.column-nav-item {' +
-            '    height: 30px;' +
-            '}' +
-            '.app-nav-link, .js-column-title {' +
-            '    font-size: 15px;' +
-            '}' +
-            '.column-nav-link .attribution {' +
-            '    font-size: 11px;' +
-            '}' +
-            '.btd-settings-btn:before {' +
-            '    border-top: 1px solid #777;' +
-            '}' +
-            '.with-nav-border-t:before {' +
-            '    padding-top: 5px;' +
-            '    top: 0px;' +
-            '    border-top: 1px solid #777;' +
-            '}' +
-            '.padding-t--4, .padding-ts {' +
-            '    padding-top: 4px !important;' +
-            '    padding-bottom: 4px !important;' +
-            '}'
-        );
-    }
-
-    //ツイート更新時にエフェクトを付与
-    if(tweet_effect_flag){
+    //新規ツイートにエフェクトをつけます
+    function executeTweetFlash(color, time){
         addGlobalStyle(
             '@keyframes tweet-enter {' +
-            '      0% { background-color: '+tweet_effect_color+'; }' +
-            '     25% { background-color: '+tweet_effect_color+'; }' +
+            '      0% { background-color: ' + color + '; }' +
+            '     25% { background-color: ' + color + '; }' +
             '     50% { background-color: rgba(0,0,0,0); }' +
-            '     75% { background-color: '+tweet_effect_color+'; }' +
-            '    100% { background-color: rgba(0,0,0,0); }' +
-            '}'+
-            '.column .js-chirp-container > article {' +
-            '    animation-duration: '+tweet_effect_time+'s;' +
-            '    animation-name: tweet-enter;' +
-            '}'
+            '     75% { background-color: ' + color + '; }' +
+            '    100% { background-color: rgba(0,0,0,0); }}'+
+            '.column .js-chirp-container > article { animation-duration: ' + time + 's; animation-name: tweet-enter; }'
         );
     }
-
-    //色変更
-    var change_text_color_flag = true; //使用するかどうか(true/false)
-    var change_text_color_1 = 'rgba(255,200,80,1)'; // @user_id , #ハッシュタグ
-    if(change_text_color_flag){
+    //このJSメイン要素の背景設定
+    function executeCustom(theme){
+        //背景設定
+        if(validURL(theme.bgMain)){addGlobalStyle('.app-content { background-image: url("' + theme.bgMain + '") !important; }');}
+        else if(theme.bgMain !== ''){addGlobalStyle('.app-content { background-color: ' + theme.bgMain + ' !important; }');}
+        if(validURL(theme.bgDrawer)){addGlobalStyle('.drawer { background-image: url("' + theme.bgDrawer + '") !important; }');}
+        else if(theme.bgMain !== ''){addGlobalStyle('.drawer { background-color: ' + theme.bgDrawer + ' !important; }');}
         addGlobalStyle(
-            //@user_id,#ハッシュタグ
-            '.column .link-complex,' +
-            '.column .hash,' +
-            '.column span.link-complex-target {' +
-            '    color: '+change_text_color_1+';' +
-            '    text-shadow: 2px 2px 1px #000000;' +
-            '}' +
-            //ユーザーネーム
-            '.column .account-link {' +
-            '    color:rgba(128,255,255,1);' +
-            '}'
+            '.app-content { background-size: cover; }' +
+            '.drawer { background-size: cover; background-position: center center; }'
         );
-    }
-    var change_icon_color_flag = true; //使用するかどうか(true/false)
-    var change_icon_color_1 = 'rgba(0,255,0,1)';//'rgba(225,232,237,1)'; // 
-    var change_like_to_favr_1 = 'rgba(0,255,0,1)';//'rgba(225,232,237,1)'; // 
-    if(change_icon_color_flag){
+        //背景を見せる為に透過処理
         addGlobalStyle(
-            '.column-type-icon {' +
-            '    color: '+change_icon_color_1+';' +
-            '}'+
-            //BetterTweetdeck用 Like→Favoriteにした時のアイコン色変更
-            '.btd__stars .icon-favorite-toggle:hover ,' +
-            '.btd__stars .is-favorite .icon-favorite-toggle {' +
-            '    color: #FAB41E;' +
-            '}' +
-            //BetterTweetdeck用 appパネルのBetterTweetdeckアイコン
-            ' .btd-settings-btn .icon {' +
-            'color: rgba(255,0,0,1);' +
-            '}'
+            '.app-columns-container, .column, .stream-item, .scroll-conversation,' + //カラム
+            '.facet-type, .button-tray, select, input,' +                            //カラムヘッダー
+            '.tweet-detail-wrapper, [rel=reply], .inline-reply,' +                   //カラムツイート詳細
+            '.compose, .old-composer-footer, .flex, [dir=ltr] *' +                   //ドロワー
+            '    { background-color: #00000000 !important; }'+
+            //旧ドロワーのボタン
+            '.r-1oszu61.r-1phboty.r-1yadl64.r-deolkf.r-6koalj.r-13awgt0.r-eqz5dr.r-crgep1.r-ifefl9.r-bcqeeo.r-t60dpp.r-bnwqim.r-417010, .btn { background-color: rgba(0, 0, 0, .8) !important; }' +
+            '.r-eqz5dr { border-radius: 18px; }' +
+            //新ドロワー絵文字ウィンドウ
+            '[dir=ltr] [role=button], .r-p1n3y5, .r-eqz5dr.r-1bylmt5 { background-color: rgba(0, 0, 0, .6) !important; }' +
+            //
+            '.quoted-tweet, [rel=reply] { background-color: rgba(0, 0, 0, .3) !important; }'
+        );
+        //透過処理に伴って発生する問題点の解決
+        addGlobalStyle(
+            '.js-team-invitations-container, .js-contributor-manager-container { display: none !important; }' +
+            '.dark option { background-color: #10171e !important; }'
+        );
+        //BetterTweeetdeckのカラム折りたたみ機能使用時にborderが二重になる部分があるので修正
+        addGlobalStyle('.btd-column-collapsed .column-header { border: solid 0px !important }');
+        //カラムの縁を丸めて余白を取る
+        addGlobalStyle('.column { border-radius: 15px !important; height: calc(100% - 12px) !important; top: 6px !important; }');
+        //ナビアイコンを詰めて表示
+        addGlobalStyle('.column-nav-item { height: 35px !important; }');
+        //ボーダーあった方が良い箇所にボーダーを付ける
+        addGlobalStyle(
+            '[dir=ltr] [role=button], .r-aaos50, .column { border: solid 1px !important; }' +
+            '.new-composer-bottom-button, .r-18qmn74 { border: solid 1px !important; background-color: rgba(0, 0, 0, .5) !important; border-radius: 30px !important; }'
+        );
+        //色設定
+        addGlobalStyle(
+            '.column-nav-link { color: ' + theme.colDockerIcon + ' !important; }' +                                                           //ドック アイコン
+            '.app-header, .column-nav-item, .app-navigator, .app-title { background-color: ' + theme.colDockerBackground + ' !important; }' + //ドック 背景
+            '.column-panel { background-color: ' + theme.colColumn + ' !important; }' +                         //カラム部 透過度
+            '.column-header, .column-options { background-color: ' + theme.colColumnHeader + ' !important; }' + //カラムヘッダー部 透過度
+            '.dropdown-menu { background-color: rgba(64, 48, 128, .8) !important; }' +                          //ツイートに対するメニュー
+            '.is-selected { background-color: rgba(0, 0, 0, .5) !important; }' +                                //メニュー項目フォーカス時
+            '.column-type-icon { color: ' + theme.colColumnHeaderIcon + ' !important; }' +
+            '.column-heading   { color: ' + theme.colColumnHeaderText + ' !important; }' +
+            '.attribution      { color: ' + theme.colColumnHeaderSubText + ' !important; }' +
+            '.account-inline .fullname { color: ' + theme.colName + ' !important; }' +
+            '.account-inline .username { color: ' + theme.colID + ' !important; }' +
+            '.tweet-text           { color: ' + theme.colTweet + ' !important; }' +
+            '.js-quoted-tweet-text { color: ' + theme.colQuotedTweet + ' !important; }' +
+            '[data-recipient-ids]  { color: ' + theme.colReply + ' !important; }' +
+            '[rel=hashtag]         { color: ' + theme.colHashtag + ' !important; }' +
+            '[data-full-url]       { color: ' + theme.colURL + ' !important; }' +
+            '.tweet-action:not(:focus):not(:hover):not(:active), .tweet-detail-action-item :not(.is-selected) .icon:not(:focus):not(:hover):not(:active) { color: ' + theme.colIconAct + ' !important; }'
+        );
+        //ボーダー色統一
+        addGlobalStyle(
+            '.app-content *:not(span), ::-webkit-scrollbar-track,' +
+            '[dir=ltr] [role=button], .r-aaos50, .r-18qmn74' +
+            '    { border-color: ' + theme.colBorder + ' !important; }'
         );
     }
-
-
-    //背景設定(背景画像に設定出来るURLは「https://」から始まるものだけです)
-    var records = [
-        "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-353314.png",
-        //"https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-460963.jpg",
-        "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-259485.jpg",
-    ] ;
-
-    // 配列からランダムで値を選択
-    var background_url = records[ Math.floor( Math.random() * records.length ) ] ; //背景画像URL
-    var compose_bg_url = "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-460963.jpg"; //ツイートバー
-    addGlobalStyle(
-        '.app-columns-container {' +
-        '    background-image: url(\"'+background_url+'\");' +
-        '    background-repeat: repeat;' +
-        '    background-attachment: fixed;' +
-        '    background-size: cover;' +
-        '}'
-    );
-    //カラム透過
-    var column_header_color = 'rgba(0,0,0,0.6)';
-    var column_body_color = 'rgba(0,0,0,0.4)';
-    var column_quote_color = 'rgba(0,0,0,0.3)';
-    addGlobalStyle(
-        //カラム全体
-        '.will-animate {' +
-        '    background-color: rgba(0,0,0,0.0);' +
-        '}' +
-        //カラム - body(TL部分,特殊)
-        '.stream-item {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-
-        //カラム - ヘッダー
-        '.btd__no_bg_modal .column-header {' +
-        '    background-color: '+column_header_color+';' +
-        '    border-bottom: 1px;' +
-        '}' +
-        //カラム - オプション - 全体
-        '.column-options {' +
-        '    background-color: '+column_header_color+';' +
-        '}' +
-        //カラム - オプション - アイコン(開いてる時)
-        '.is-options-open .column-settings-link {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-        //カラム - オプション - アクティブオプション
-        '.accordion .is-active {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-        //カラム - オプション - フッター
-        '.column-options .button-tray {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-
-        //TL(カラムbody)
-        '.column-scroller {' +
-        '    background-color: '+column_body_color+';' +
-        '}' +
-        //引用ツイート(.column-scrollerに加算)
-        '.column .quoted-tweet {' +
-        '    background-color: '+column_quote_color+';' +
-        '}' +
-        //ツイート詳細 - 選択したツイートのみ(.column-scrollerに加算)
-        '.tweet-detail-wrapper {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-        //リプ欄開く前(.column-scrollerに加算)
-        '.detail-view-inline {' +
-        '    background-color: rgba(0,0,0,0);' +
-        '}' +
-        //リプ欄開いた後(.column-scrollerに加算)
-        '.inline-reply {' +
-        '    background-color: rgba(0,0,0,0.0);' +
-        '}' +
-        //リプ欄開いた後(.column-scrollerに加算)
-        '.reply-triangle {' +
-        '    color: rgba(0,0,0,0.2);' +
-        '}' +
-        //TLアクションアイコン(.column-scrollerに加算)
-        '.chirp-container .stream-item:not(:hover):not(.is-selected-tweet) .tweet-action,' +
-        '.chirp-container .stream-item:not(:hover):not(.is-selected-tweet) .tweet-detail-action,' +
-        '.chirp-container .stream-item:not(:hover):not(.is-selected-tweet) .dm-action {' +
-        '    color: rgba(0,0,0,0.5);' +
-        '}' +
-        //TLアクションアイコン - エリア進入時(.column-scrollerに加算)
-        '.tweet-action,' +
-        '.tweet-detail-action,' +
-        '.dm-action {' +
-        '    color: rgba(0,0,0,0.8);' +
-        '}' +
-
-        '.compose-text-title,' +
-        '.compose {' +
-        '    color: rgba(0,0,0,1);' +
-        '}' +
-        /*
-        '.account-selector-grid-mode {' +
-        '    color: rgba(0,0,0,1);' +
-        '    opacity: 0.7;' +
-        '}' +
-        */
-        '.is-selected .account-selector-grid-mode {' +
-        '    color: rgba(32,96,176,1);' +
-        '}' +
-
-        //左 - アカウントの並びを変えるやつ
-        '.txt-r-white {' +
-        '     color: rgba(0,0,0,1);' +
-        '}' +
-        '.is-selected .txt-r-white {' +
-        '     color: rgba(32,96,176,1);' +
-        '}' +
-        '.account-selector-grid-mode {' +
-        '      opacity: 1;' +
-        '}' +
-
-        //左 - 背景設定
-        //'.antiscroll-inner {' +
-        '.js-docked-compose {' +
-        '    background-image: url(\"https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-106973.jpg\");' +
-        '    background-size: cover;' +
-        '}'
-
-        //.tweet-action .icon-favorite, .tweet-detail-action .icon-favorite, .dm-action .icon-favorite, .tweet-action .icon-more, .tweet-detail-action .icon-more, .dm-action .icon-more
-    );
-
-    //$('body > div.js-app.application.is-condensed.hide-detail-view-inline > div.js-app-content.app-content.is-open > div:nth-child(1) > div > div > div > div.position-rel.compose-text-container').insertAfter('body > div.js-app.application.is-condensed.hide-detail-view-inline > div.js-app-content.app-content.is-open > div:nth-child(1) > div > div > div > div.js-compose-message-header.margin-b--9.compose-text-title > div');
-
     /* -------------------------- ここまでコード -------------------------- */
 
-})(jQuery.noConflict(true));
+    /* --------------------------- ここから関数 --------------------------- */
+    //Javascriptでcssグローバルスタイルの記述を可能にする関数です。
+    function addGlobalStyle(css) {var head, style;head=document.getElementsByTagName('head')[0];if(!head){return;}style=document.createElement('style');style.type='text/css';style.innerHTML=css;head.appendChild(style);}
+    //型の判別を行う関数です。(type = String,Number,Boolean,Date,Error,Array,Function,RegExp,Object)
+    function is(type, obj) {var clas=Object.prototype.toString.call(obj).slice(8, -1);return obj !== undefined && obj !== null && clas === type;}
+    //16進数をCSS用の書式に書き直してくれる関数
+    function rgb(red,green,blue) {return red * Math.pow(256,2) + green * Math.pow(256,1) + blue * Math.pow(256,0);}
+    function rgba(red,green,blue,alpha) {return (alpha * Math.pow(256,3)*255)|0 + red * Math.pow(256,2) + green * Math.pow(256,1) + blue * Math.pow(256,0);}
+    //URLかどうかチェックする関数
+    function validURL(str){
+        var pattern = new RegExp('^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$','i');
+        if(!pattern.test(str)){return false;}else{return true;}
+    }
+    /* --------------------------- ここまで関数 --------------------------- */
 
+})(jQuery.noConflict(true));

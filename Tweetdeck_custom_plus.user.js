@@ -2,7 +2,7 @@
 // @name         TweetDeck 背景透過+
 // @author       puzzle (or ziopuzzle)
 // @namespace    https://twitter.com/puzzle_koa/
-// @version      0.30
+// @version      0.31
 // @description  Tweetdeckに背景を設定します。Chrome(Chromium系)のみ使用可能。
 // @match        https://tweetdeck.twitter.com/*
 // @grant        none
@@ -28,10 +28,13 @@
     /* ------------------------------- 設定 ------------------------------- */
     //setBG('Main-BG', 'Drawer-BG');
     //setColorBorder('Border');
+    //setColorActionIcon('ActionIcon');
+    //setColorMenu('Menu');
     //setColorDocker('Icon', 'Background');
     //setColorColumn('Column', 'Header', 'Header Icon', 'Header Text', 'Header Sub-Text');
     //setColorTweet('Name', '@ID' 'Tweet', 'Quote-tweet', 'Reply-ID', 'Hashtag', 'URL');
     var themeMiku = new theme();
+    //URLはhtppsのもののみ有効
     themeMiku.setBG('https://w.wallhaven.cc/full/01/wallhaven-015zv1.jpg', 'https://w.wallhaven.cc/full/ne/wallhaven-ne96gk.png');
     themeMiku.setColorBorder('#403080');
     themeMiku.setColorActionIcon('orange');
@@ -76,9 +79,10 @@
             '.tweet-detail-wrapper, [rel=reply], .inline-reply,' +                   //カラムツイート詳細
             '.compose, .old-composer-footer, .flex, [dir=ltr] *' +                   //ドロワー
             '    { background-color: #00000000 !important; }'+
-            //旧ドロワーのボタン
+            //旧ドロワー
             '.r-1oszu61.r-1phboty.r-1yadl64.r-deolkf.r-6koalj.r-13awgt0.r-eqz5dr.r-crgep1.r-ifefl9.r-bcqeeo.r-t60dpp.r-bnwqim.r-417010, .btn { background-color: rgba(0, 0, 0, .8) !important; }' +
             '.r-eqz5dr { border-radius: 18px; }' +
+            '.compose-reply-tweet { background-color: rgba(0, 0, 0, .6) !important; }' +
             //新ドロワー絵文字ウィンドウ
             '[dir=ltr] [role=button], .r-p1n3y5, .r-eqz5dr.r-1bylmt5 { background-color: rgba(0, 0, 0, .6) !important; }' +
             //
@@ -98,7 +102,8 @@
         //ボーダーあった方が良い箇所にボーダーを付ける
         addGlobalStyle(
             '[dir=ltr] [role=button], .r-aaos50, .column { border: solid 1px !important; }' +
-            '.new-composer-bottom-button, .r-18qmn74 { border: solid 1px !important; background-color: rgba(0, 0, 0, .5) !important; border-radius: 30px !important; }'
+            '.new-composer-bottom-button, .r-18qmn74 { border: solid 1px !important; background-color: rgba(0, 0, 0, .5) !important; border-radius: 30px !important; }' +
+            '.compose-reply-tweet { border: solid 1px !important; }'
         );
         //色設定
         addGlobalStyle(
@@ -122,7 +127,7 @@
         );
         //ボーダー色統一
         addGlobalStyle(
-            '.app-content *:not(span), ::-webkit-scrollbar-track,' +
+            '.app-content *:not(span):not(.replyto-caret), ::-webkit-scrollbar-track,' +
             '[dir=ltr] [role=button], .r-aaos50, .r-18qmn74' +
             '    { border-color: ' + theme.colBorder + ' !important; }'
         );

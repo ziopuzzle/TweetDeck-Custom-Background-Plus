@@ -30,3 +30,4 @@ ver0.20 - cssからJavascriptへ仕様変更した。<br>
 ver0.21 - 修正<br>
 ver0.22 - Tweetdeckの仕様変更に伴い問題が起きたので修正<br>
 ver0.30 - Tweetdeck仕様変更に伴いスクリプト書き直しました。<br>
+Ver0.31 - 旧ドロワーでリプライをする際に気になる部分があったので修正<br>

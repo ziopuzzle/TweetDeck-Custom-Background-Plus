@@ -1,5 +1,5 @@
-(日本語)[https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus/blob/master/README_jp.md]
-(English)[https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus]
+[日本語](https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus/blob/master/README_jp.md)
+[English](https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus)
 
 # TweetDeck Custom Background Plus
 A custom background script for Tweetdeck (and OldTweetDeck).\

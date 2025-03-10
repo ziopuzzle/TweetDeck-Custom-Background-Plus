@@ -1,3 +1,6 @@
+(日本語)[https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus/blob/master/README_jp.md]
+(English)[https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus]
+
 # TweetDeck Custom Background Plus
 A custom background script for Tweetdeck (and OldTweetDeck).\
 Tested only in Chrome and Tampermonkey.
@@ -11,7 +14,7 @@ Tested only in Chrome and Tampermonkey.
 
 ## 🔧Install
 1. Install [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) Chrome extension
-2. Click [Link](https://github.com/ziopuzzle/Tweetdeck-Customize/raw/master/Tweetdeck_custom_plus.user.js), and install.
+2. Click [Link](https://github.com/ziopuzzle/TweetDeck-Custom-Background-Plus/raw/master/Tweetdeck_custom_plus.user.js), and install.
 3. Installing the UserScript will make a "Background" tab appear in Tweetdeck's settings.
 Backgrounds can be set from file or URL (begins with "https").
 ![image](https://github.com/user-attachments/assets/894b4666-cc1a-4a66-bb06-9429db142733)
